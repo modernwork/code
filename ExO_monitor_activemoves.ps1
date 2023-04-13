@@ -1,10 +1,10 @@
-﻿$mbx = Read-Host "please enter the email address of the mailbox being migrated" 
+$qqq = Read-Host "please enter the email address of the mailbox being migrated" 
 $mail = send-mailmessage -From x@xyz.com -To x@xyz.com -Subject "$($user) $($stats.PercentComplete) % ExO move' -Body 'body" -SmtpServer 'smtp.xyz.com' 
  
 $i=0
  
 Do {
-    $stats = Get-MoveRequestStatistics $mbx
+    $stats = Get-MoveRequestStatistics $qqq
     $data = $($stats.BytesTransferred.ToString().Split("(")[0].trim())
     $datapm = $($stats.BytesTransferredPerMinute.ToString().Split("(")[0].trim())
  
