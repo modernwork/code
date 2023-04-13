@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "The data: ./backup.sh <file_path> <backup_directory>"
+    exit 1
+fi
+
+if [ ! -e "$1" ]; then
+    echo "This file doesn't exist"
+    exit 1
+fi
+
+if [ ! -d "$2" ]; then
+    mkdir -p "$2"
+fi
+
+timestamp=$(date "+%Y-%m-%d_%H-%M-%S")
+cp "$1" "$2/$timestamp-$(basename "$1")"
+echo "Backup created at $2/$timestamp-$(basename "$1")"
