@@ -1,0 +1,56 @@
+//create and use Azure Blob Storage
+
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+
+class Program
+{
+static async Task Main(string[] args)
+{
+// Retrieve storage account from connection string.
+CloudStorageAccount storageAccount = CloudStorageAccount.Parse("your_connection_string");
+
+//java
+    // Create the blob client
+    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
+    // Retrieve reference to a previously created container
+    CloudBlobContainer container = blobClient.GetContainerReference("mycontainer");
+
+    // Create the container if it doesn't already exist
+    await container.CreateIfNotExistsAsync();
+
+    // Set the permissions so the blobs are public
+    await container.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
+
+    // Upload blob
+    CloudBlockBlob blockBlob = container.GetBlockBlobReference("theblob");
+    using (var fileStream = System.IO.File.OpenRead(@"path\file"))
+    {
+        await blockBlob.UploadFromStreamAsync(fileStream);
+    }
+
+    // List blobs in container
+    BlobContinuationToken continuationToken = null;
+    do
+    {
+        var results = await container.ListBlobsSegmentedAsync(null, continuationToken);
+        continuationToken = results.ContinuationToken;
+        foreach (IListBlobItem item in results.Results)
+        {
+            Console.WriteLine(item.Uri);
+        }
+    } while (continuationToken != null);
+
+    // Download blob to a local file
+    CloudBlockBlob blockBlob2 = container.GetBlockBlobReference("myblob");
+    using (var fileStream = System.IO.File.OpenWrite(@"path\myfile2"))
+    {
+        await blockBlob2.DownloadToStreamAsync(fileStream);
+    }
+}
+
+}
