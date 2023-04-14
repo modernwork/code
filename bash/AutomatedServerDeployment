@@ -1,0 +1,28 @@
+#Script for Automated Server Deployment
+#!/bin/bash
+
+#This script automates the process of setting up a new server from scratch.
+#It installs necessary packages, configures the firewall, creates user accounts, and sets up SSH keys.
+#Install necessary packages
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y nginx git
+
+#Configure the firewall
+sudo ufw allow OpenSSH
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw enable
+
+#Create user accounts
+sudo useradd -m -s /bin/bash fred
+sudo useradd -m -s /bin/bash ernie
+
+#Set up SSH keys
+sudo mkdir /home/fred/.ssh /home/ernie/.ssh
+sudo touch /home/fred/.ssh/authorized_keys /home/ernie/.ssh/authorized_keys
+sudo chmod 700 /home/fred/.ssh /home/ernie/.ssh
+sudo chmod 600 /home/fred/.ssh/authorized_keys /home/ernie/.ssh/authorized_keys
+
+#Add SSH keys
+sudo echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDf7Y4eLc0jH8eQW+qdRnJjGm9h9X3M6W5p90zFw6K1U/Gk8F+ZdrglZDHY6SoybKpq8+oGmHv82YwY/vjKc4xGxuV7Txb+fy2rV7Shf8HehLH7jKbO/TsVp04zw3rlKj0pEdhAVa0G1l11XbJL1/SatTtFwYvT3seN/2T0XVJftuJDpxjTFVqTGzQ+Jh0jcBXuYwMFpV7+R8weLOOms5BrJNh5z+ZKKx5SzmUaV6UIMw6A4txbE4y4+QgejbX9klrbFh8zvZd0YCrY0DpSEHnkWFOBv0glJtC38Lf/k9sEdxW+B1LpO7tFwYt+ujbCN/r8TqrrvwbdJzhd fred@xyz.com" >> /home/fred/.ssh/authorized_keys
+sudo echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDf7Y4eLc0jH8eQW+qdRnJjGm9h9X3M6W5p90zFw6K1U/Gk8F+ZdrglZDHY6SoybKpq8+oGmHv82YwY/vjKc4xGxuV7Txb+fy2rV7Shf8HehLH7jKbO/TsVp04zw3rlKj0pEdhAVa0G1l11XbJL1/SatTtFwYvT3seN/2T0XVJftuJDpxjTFVqTGzQ+Jh0jcBXuYwMFpV7+R8weLOOms5BrJNh5z+ZKKx5SzmUaV6UIMw6
