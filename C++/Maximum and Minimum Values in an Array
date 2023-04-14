@@ -1,0 +1,42 @@
+//maximum and minimum values in an array of integers
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+int n, arr[100], max_val, min_val;
+
+cout << "How many numbers in the array?: ";
+cin >> n;
+
+//c
+cout << "Enter the elements: ";
+
+for (int i = 0; i < n; i++)
+{
+    cin >> arr[i];
+}
+
+max_val = arr[0];
+min_val = arr[0];
+
+for (int i = 1; i < n; i++)
+{
+    if (arr[i] > max_val)
+    {
+        max_val = arr[i];
+    }
+    if (arr[i] < min_val)
+    {
+        min_val = arr[i];
+    }
+}
+
+cout << "Maximum value in the array: " << max_val << endl;
+cout << "Minimum value in the array: " << min_val << endl;
+
+return 0;
+
+}
