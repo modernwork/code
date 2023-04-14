@@ -1,5 +1,5 @@
 //Azure IoT Hub 
-// use the Azure IoT C SDK to send telemetry data to Azure IoT Hub.
+//use the Azure IoT C SDK to send telemetry data to Azure IoT Hub.
 
 #include <stdio.h>
 #include <stdlib.h>
