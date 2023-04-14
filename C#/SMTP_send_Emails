@@ -1,0 +1,31 @@
+// This script demonstrates how to use the SMTP client in C# to send emails.
+
+using System;
+using System.Net;
+using System.Net.Mail;
+
+class Program {
+static void Main(string[] args) {
+// Set variables
+string toAddress = "recipient@xyz.com";
+string fromAddress = "sender@xyz.com";
+string subject = "Test Email";
+string body = "This is a test email sent from C#.";
+//java
+    // Create message
+    MailMessage message = new MailMessage(fromAddress, toAddress, subject, body);
+
+    // Configure SMTP client
+    SmtpClient client = new SmtpClient("smtp.xyz.com", 587);
+    client.EnableSsl = true;
+    client.Credentials = new NetworkCredential("username", "password");
+
+    // Send message
+    try {
+        client.Send(message);
+        Console.WriteLine("Email sent successfully.");
+    } catch (Exception ex) {
+        Console.WriteLine("Error sending email: " + ex.Message);
+    }
+}
+}
