@@ -1,0 +1,40 @@
+//Azure Blob Storage SDK upload a file 
+
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include "storage_blob.h"
+
+using namespace std;
+
+int main()
+{
+// Set connection string for Azure Blob Storage account
+const char* connection_string = "<your connection string>";
+
+//c
+// Create Blob Storage client
+Azure::Storage::Blob::BlobServiceClient blob_client(Azure::Storage::Blob::BlobServiceClient::CreateFromConnectionString(connection_string));
+
+// Set container name and blob name for file upload
+const char* container_name = "<your container name>";
+const char* blob_name = "<your blob name>";
+
+// Upload file to Blob Storage
+Azure::Storage::Blob::UploadBlockBlobOptions options;
+Azure::Core::IO::MemoryBodyStream stream("Hello, Blob Storage!");
+auto response = blob_client.UploadBlockBlob(container_name, blob_name, stream, options);
+
+// Check if upload was successful
+if (response->ExtractedEtag.empty())
+{
+    cout << "File upload failed." << endl;
+}
+else
+{
+    cout << "File uploaded successfully." << endl;
+}
+
+return 0;
+
+}
