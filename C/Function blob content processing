@@ -1,0 +1,20 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "azure_functions.h"
+
+void process_file(blob_trigger_t* blob_info) {
+    // Get the blob's URI
+    char* blob_uri = blob_trigger_get_uri(blob_info);
+
+    // Download the blob content
+    char* blob_content = blob_trigger_download(blob_info);
+
+    // Process the file
+    // ...
+
+    // Upload the processed file to another blob storage container
+    blob_trigger_upload(blob_info, "processed-files", blob_content);
+}
+
+//This function is triggered by a new blob being added to a specified storage container. It then downloads the blob's content, processes the file, and uploads the processed file to another storage container. 
