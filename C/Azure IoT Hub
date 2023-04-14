@@ -1,0 +1,82 @@
+//Azure IoT Hub 
+// use the Azure IoT C SDK to send telemetry data to Azure IoT Hub.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "azure_c_shared_utility/platform.h"
+#include "azure_c_shared_utility/threadapi.h"
+#include "azure_c_shared_utility/shared_util_options.h"
+#include "azure_c_shared_utility/tlsio.h"
+#include "iothub_client.h"
+#include "iothubtransportmqtt.h"
+
+// Define the connection string to your Azure IoT Hub
+static const char* connectionString = "HostName=<your-hub-name>.azure-devices.net;DeviceId=<your-device-id>;SharedAccessKey=<your-device-access-key>";
+
+// Define the telemetry message format
+static const char* telemetryMessage = "{"deviceId":"myDevice","temperature":%.2f,"humidity":%.2f}";
+
+// Define the interval at which to send telemetry messages (in seconds)
+static const int interval = 5;
+
+// Define the main function
+int main(int argc, char** argv)
+{
+// Initialize the platform
+if (platform_init() != 0)
+{
+printf("Failed to initialize the platform.\n");
+return 1;
+}
+
+//scss
+// Create the MQTT transport
+TRANSPORT_HANDLE transportHandle = IoTHubTransportMqtt_Create(connectionString, MQTT_Protocol);
+
+// Create the IoT Hub client
+IOTHUB_CLIENT_HANDLE clientHandle = IoTHubClient_CreateFromTransport(transportHandle);
+
+// Start the IoT Hub client
+IoTHubClient_SetOption(clientHandle, OPTION_PRODUCT_INFO, "Azure IoT C SDK Sample");
+IoTHubClient_SetOption(clientHandle, OPTION_LOG_TRACE, 0);
+IoTHubClient_SetOption(clientHandle, OPTION_TRUSTED_CERT, certificates);
+IoTHubClient_SetOption(clientHandle, "RawTimeCritical", &rawTimeCriticalValue);
+IoTHubClient_SetOption(clientHandle, OPTION_HTTP_PERSISTENCE_TIMEOUT, &httpPersistenceTimeout);
+IoTHubClient_SetMessageCallback(clientHandle, receiveMessageCallback, NULL);
+
+// Start sending telemetry messages
+while (1)
+{
+    // Generate random telemetry data
+    float temperature = (float)rand() / (float)(RAND_MAX / 100);
+    float humidity = (float)rand() / (float)(RAND_MAX / 100);
+
+    // Create the telemetry message
+    char* messageData = (char*)malloc(strlen(telemetryMessage) + 16);
+    sprintf(messageData, telemetryMessage, temperature, humidity);
+
+    // Create the message handle
+    IOTHUB_MESSAGE_HANDLE messageHandle = IoTHubMessage_CreateFromString(messageData);
+
+    // Send the message
+    IoTHubClient_SendEventAsync(clientHandle, messageHandle, NULL, NULL);
+
+    // Wait for the interval
+    ThreadAPI_Sleep(interval * 1000);
+
+    // Clean up the message handle and data
+    IoTHubMessage_Destroy(messageHandle);
+    free(messageData);
+}
+
+// Clean up the IoT Hub client and transport
+IoTHubClient_Destroy(clientHandle);
+IoTHubTransport_Destroy(transportHandle);
+
+// Deinitialize the platform
+platform_deinit();
+
+return 0;
+
+}
