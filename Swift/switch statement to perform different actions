@@ -1,0 +1,38 @@
+enum CompassPoint {
+  case north
+  case south
+  case east
+  case west
+}
+
+// Define a variable with a CompassPoint value
+let direction = CompassPoint.north
+
+// Use a switch statement to perform different actions based on the value of direction
+switch direction {
+case .north:
+  print("Heading north")
+case .south:
+  print("Heading south")
+case .east:
+  print("Heading east")
+case .west:
+  print("Heading west")
+}
+
+// Define a function that takes a CompassPoint argument and returns a String
+func getDirectionString(_ direction: CompassPoint) -> String {
+  switch direction {
+  case .north:
+    return "north"
+  case .south:
+    return "south"
+  case .east:
+    return "east"
+  case .west:
+    return "west"
+  }
+}
+
+// Use the function to print the direction as a String
+print("Heading " + getDirectionString(direction))
