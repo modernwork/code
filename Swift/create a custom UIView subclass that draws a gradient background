@@ -1,0 +1,36 @@
+import UIKit
+
+class GradientView: UIView {
+  
+  // An array of UIColor objects representing the gradient colors
+  var gradientColors: [UIColor] = [.red, .blue]
+  
+  // The start point of the gradient, expressed as a CGPoint where {0,0} is the top-left corner of the view and {1,1} is the bottom-right corner.
+  var startPoint: CGPoint = CGPoint(x: 0.5, y: 0)
+  
+  // The end point of the gradient, expressed as a CGPoint where {0,0} is the top-left corner of the view and {1,1} is the bottom-right corner.
+  var endPoint: CGPoint = CGPoint(x: 0.5, y: 1)
+  
+  override func draw(_ rect: CGRect) {
+    // Get the current graphics context
+    guard let context = UIGraphicsGetCurrentContext() else {
+      return
+    }
+    
+    // Create a new gradient object using the specified colors, start point, and end point
+    let colorSpace = CGColorSpaceCreateDeviceRGB()
+    let colorLocations: [CGFloat] = [0, 1]
+    let gradient = CGGradient(colorsSpace: colorSpace, colors: gradientColors.map { $0.cgColor } as CFArray, locations: colorLocations)!
+    
+    // Get the size of the view's bounds
+    let size = bounds.size
+    
+    // Calculate the start and end points of the gradient based on the view's bounds and the specified start and end points
+    let startPoint = CGPoint(x: size.width * self.startPoint.x, y: size.height * self.startPoint.y)
+    let endPoint = CGPoint(x: size.width * self.endPoint.x, y: size.height * self.endPoint.y)
+    
+    // Draw the gradient background
+    context.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: [])
+  }
+  
+}
