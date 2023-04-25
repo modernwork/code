@@ -1,0 +1,33 @@
+<!-- This XML script is used to configure an app protection policy for Android devices in Intune -->
+
+<IntunePolicy>
+  <!-- Configure app protection policy settings -->
+  <AppProtection>
+    <DeviceType>Android</DeviceType>
+    <TargetedApps>
+      <App>
+        <AppID>com.example.app1</AppID>
+        <ManagedAppProtection>
+          <PinRequired>true</PinRequired>
+          <DataBackupAllowed>false</DataBackupAllowed>
+          <AccessRequirements>
+            <EncryptionRequired>true</EncryptionRequired>
+            <JailbreakDetectionEnabled>true</JailbreakDetectionEnabled>
+          </AccessRequirements>
+        </ManagedAppProtection>
+      </App>
+      <App>
+        <AppID>com.example.app2</AppID>
+        <ManagedAppProtection>
+          <PinRequired>true</PinRequired>
+          <DataBackupAllowed>false</DataBackupAllowed>
+          <AccessRequirements>
+            <EncryptionRequired>true</EncryptionRequired>
+            <JailbreakDetectionEnabled>true</JailbreakDetectionEnabled>
+          </AccessRequirements>
+        </ManagedAppProtection>
+      </App>
+    </TargetedApps>
+    <ScreenCaptureBlocked>true</ScreenCaptureBlocked>
+  </AppProtection>
+</IntunePolicy>
