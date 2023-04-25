@@ -1,0 +1,19 @@
+<!-- Define an XML schema using the xsd namespace -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Define a complex type called "person" with two child elements, "name" and "age" -->
+  <xs:element name="person" type="personType"/>
+  <xs:complexType name="personType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="age" type="xs:integer"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+
+<!-- Define an XML document that uses the "person" element defined in the schema -->
+<person>
+  <name>John Doe</name>
+  <age>30</age>
+</person>
