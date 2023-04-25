@@ -1,0 +1,54 @@
+# Import external libraries
+import requests
+from bs4 import BeautifulSoup
+import re
+
+# Constants
+BASE_URL = 'https://www.example.com'
+SEARCH_TERM = 'data science'
+
+# Function to scrape search results from website
+def scrape_search_results(base_url, search_term):
+    # Construct search URL
+    search_url = f'{base_url}/search?q={search_term}'
+
+    # Send HTTP request to website
+    response = requests.get(search_url)
+
+    # Parse HTML content using BeautifulSoup
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Extract search result titles and URLs
+    search_results = []
+    for result in soup.find_all('div', class_='search-result'):
+        title = result.find('h3', class_='search-result__title').text.strip()
+        url = result.find('a', class_='search-result__link')['href']
+        search_results.append({'title': title, 'url': url})
+
+    return search_results
+
+# Function to filter search results by keyword
+def filter_search_results(search_results, keyword):
+    filtered_results = []
+    for result in search_results:
+        if re.search(keyword, result['title'], re.IGNORECASE) or re.search(keyword, result['url'], re.IGNORECASE):
+            filtered_results.append(result)
+
+    return filtered_results
+
+# Main function to run the script
+def main():
+    # Scrape search results
+    search_results = scrape_search_results(BASE_URL, SEARCH_TERM)
+
+    # Filter search results by keyword
+    filtered_results = filter_search_results(search_results, 'Python')
+
+    # Print filtered search results
+    print(f'Found {len(filtered_results)} search results for "Python" in "{SEARCH_TERM}":')
+    for result in filtered_results:
+        print(f'{result["title"]}\n{result["url"]}\n')
+
+# Call main function
+if __name__ == '__main__':
+    main()
