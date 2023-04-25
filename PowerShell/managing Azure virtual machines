@@ -1,0 +1,65 @@
+# Connect to Azure
+Connect-AzAccount
+
+# Select the subscription to work with
+Set-AzContext -SubscriptionId <SUBSCRIPTION_ID>
+
+# Create a resource group
+New-AzResourceGroup -Name <RESOURCE_GROUP_NAME> -Location <LOCATION>
+
+# Create a virtual network
+$vnet = New-AzVirtualNetwork `
+  -Name <VIRTUAL_NETWORK_NAME> `
+  -ResourceGroupName <RESOURCE_GROUP_NAME> `
+  -Location <LOCATION> `
+  -AddressPrefix <ADDRESS_PREFIX>
+
+# Create a subnet
+$subnet = Add-AzVirtualNetworkSubnetConfig `
+  -Name <SUBNET_NAME> `
+  -AddressPrefix <SUBNET_ADDRESS_PREFIX> `
+  -VirtualNetwork $vnet
+
+# Create a public IP address
+$publicIp = New-AzPublicIpAddress `
+  -Name <PUBLIC_IP_NAME> `
+  -ResourceGroupName <RESOURCE_GROUP_NAME> `
+  -Location <LOCATION> `
+  -AllocationMethod Dynamic
+
+# Create a network interface
+$nic = New-AzNetworkInterface `
+  -Name <NIC_NAME> `
+  -ResourceGroupName <RESOURCE_GROUP_NAME> `
+  -Location <LOCATION> `
+  -Subnet $subnet `
+  -PublicIpAddress $publicIp
+
+# Create a virtual machine
+$vm = New-AzVMConfig `
+  -VMName <VM_NAME> `
+  -VMSize <VM_SIZE> `
+  -AvailabilitySetId <AVAILABILITY_SET_ID> `
+  -Location <LOCATION>
+
+# Set the operating system image
+$image = Get-AzVMImageOffer -Location <LOCATION> -PublisherName <PUBLISHER_NAME> -Offer <OFFER> | `
+         Get-AzVMImageSku | `
+         Where-Object {$_.Skus -contains <SKU>} | `
+         Select-Object -ExpandProperty Skus | `
+         Select-Object -First 1
+$osDiskName = $vm.StorageProfile.OSDisk.Name
+Set-AzVMOperatingSystem -VM $vm -Windows -ComputerName <COMPUTER_NAME> -Credential (Get-Credential) -ProvisionVMAgent -EnableAutoUpdate -TimeZone <TIME_ZONE> -TimeZoneId <TIME_ZONE_ID> -Verbose
+Set-AzVMSourceImage -VM $vm -Id $image.Id
+Set-AzVMOSDisk -VM $vm -Name $osDiskName -VhdUri <VHD_URI> -CreateOption FromImage
+
+# Set the network configuration
+$vm = Add-AzVMNetworkInterface `
+  -VM $vm `
+  -Id $nic.Id
+
+# Create the virtual machine
+New-AzVM `
+  -ResourceGroupName <RESOURCE_GROUP_NAME> `
+  -Location <LOCATION> `
+  -VM $vm
