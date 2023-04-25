@@ -1,0 +1,19 @@
+# Import the Intune PowerShell module
+Import-Module Microsoft.Graph.Intune
+
+# Connect to the Intune service with an app registration
+Connect-MSGraph -TenantId "tenant-id" -AppId "app-id" -AppSecret "app-secret"
+
+# Get all enrolled devices
+$devices = Get-IntuneManagedDevice
+
+# Iterate through the devices and perform an action on each
+foreach ($device in $devices) {
+  # Check if the device is online
+  if ($device.DeviceActionResults.DeviceActionResult.DeviceLastReportedDateTime -gt (Get-Date).AddMinutes(-15)) {
+    # Take a screenshot of the device and save it to a file
+    $screenshot = New-IntuneManagedDeviceScreenshot -ManagedDeviceId $device.Id
+    $screenshotBytes = [Convert]::FromBase64String($screenshot.Image)
+    [System.IO.File]::WriteAllBytes("$($device.DeviceName).png", $screenshotBytes)
+  }
+}
