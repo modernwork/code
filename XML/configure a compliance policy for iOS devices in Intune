@@ -1,0 +1,32 @@
+<!-- This XML script is used to configure a compliance policy for iOS devices in Intune -->
+
+<IntunePolicy>
+  <!-- Configure device compliance settings -->
+  <DeviceCompliance>
+    <DeviceType>iOS</DeviceType>
+    <Rule>
+      <Type>DeviceEncryptionEnabled</Type>
+      <Value>true</Value>
+    </Rule>
+    <Rule>
+      <Type>DevicePasscodeEnabled</Type>
+      <Value>true</Value>
+    </Rule>
+    <Rule>
+      <Type>DevicePasscodeMinimumLength</Type>
+      <Value>6</Value>
+    </Rule>
+    <Rule>
+      <Type>DevicePasscodeRequiredType</Type>
+      <Value>Alphanumeric</Value>
+    </Rule>
+    <Rule>
+      <Type>DeviceThreatProtectionEnabled</Type>
+      <Value>true</Value>
+    </Rule>
+    <Rule>
+      <Type>DeviceOsMinimumVersion</Type>
+      <Value>13.0</Value>
+    </Rule>
+  </DeviceCompliance>
+</IntunePolicy>
