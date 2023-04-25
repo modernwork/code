@@ -1,0 +1,63 @@
+// Import external libraries
+import { format } from 'date-fns';
+import axios from 'axios';
+
+// Constants
+const BASE_URL = 'https://api.example.com';
+const API_KEY = 'my-api-key';
+
+// Helper functions
+function generateSlug(title) {
+  return title.toLowerCase().replace(/\s+/g, '-');
+}
+
+function validateEmail(email) {
+  const re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
+
+// Class for creating a blog post object
+class BlogPost {
+  constructor(title, content, author, publishedDate) {
+    this.title = title;
+    this.content = content;
+    this.author = author;
+    this.publishedDate = publishedDate;
+    this.slug = generateSlug(title);
+  }
+
+  // Method to display blog post
+  displayPost() {
+    console.log(`Title: ${this.title}`);
+    console.log(`Content: ${this.content}`);
+    console.log(`Author: ${this.author}`);
+    console.log(`Published Date: ${format(this.publishedDate, 'MM/dd/yyyy')}`);
+    console.log(`Slug: ${this.slug}`);
+  }
+}
+
+// Function to create a new blog post
+async function createBlogPost(title, content, author, email) {
+  // Validate email
+  if (!validateEmail(email)) {
+    throw new Error('Invalid email address');
+  }
+
+  // Call API to create blog post
+  const url = `${BASE_URL}/posts?apiKey=${API_KEY}`;
+  const response = await axios.post(url, {
+    title: title,
+    content: content,
+    author: author,
+    email: email
+  });
+
+  // Create BlogPost object from response data
+  const post = new BlogPost(response.data.title, response.data.content, response.data.author, new Date(response.data.publishedDate));
+
+  // Display blog post
+  post.displayPost();
+}
+
+// Call createBlogPost function
+createBlogPost('My New Blog Post', 'Lorem ipsum dolor sit amet', 'John Doe', 'johndoe@example.com');
