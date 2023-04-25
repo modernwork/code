@@ -1,0 +1,133 @@
+
+/* Here I have defined some global styles for the website. */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  color: #333333;
+}
+
+/* Here I have defined some styles for the header and navigation bar. */
+header {
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  margin: 0 1rem;
+}
+
+nav a {
+  color: #333333;
+  font-size: 1.2rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s ease-in-out;
+}
+
+nav a:hover {
+  color: #666666;
+}
+
+/* Here I have defined some styles for the main content of the website. */
+main {
+  margin-top: 5rem;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  text-align: justify;
+}
+
+/* Here I have defined some styles for the portfolio section of the website. */
+.portfolio {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.portfolio-item {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin: 2rem;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+  width: calc((100% - 6rem) / 3);
+}
+
+.portfolio-item:hover {
+  transform: scale(1.1);
+}
+
+.portfolio-img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.portfolio-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.portfolio-desc {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Here I have defined some styles for the contact form of the website. */
+.contact-form {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  margin: 2rem auto;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-size: 1.2rem;
+  font-weight: bold;
+ 
