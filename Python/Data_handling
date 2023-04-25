@@ -1,0 +1,61 @@
+# Import external libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Constants
+FILE_NAME = 'data.csv'
+COLUMNS = ['Name', 'Age', 'Gender', 'City', 'Salary']
+
+# Function to read data from CSV file
+def read_data(file_name):
+    df = pd.read_csv(file_name, usecols=COLUMNS)
+    return df
+
+# Function to clean data
+def clean_data(df):
+    # Drop rows with missing values
+    df.dropna(inplace=True)
+
+    # Convert age and salary columns to numeric data types
+    df['Age'] = pd.to_numeric(df['Age'], errors='coerce')
+    df['Salary'] = pd.to_numeric(df['Salary'], errors='coerce')
+
+    # Drop rows with invalid values
+    df.dropna(inplace=True)
+
+    # Convert gender column to categorical data type
+    df['Gender'] = pd.Categorical(df['Gender'], categories=['Male', 'Female'], ordered=False)
+
+    return df
+
+# Function to visualize data
+def visualize_data(df):
+    # Create histogram of ages
+    plt.hist(df['Age'], bins=10)
+    plt.xlabel('Age')
+    plt.ylabel('Count')
+    plt.title('Distribution of Ages')
+    plt.show()
+
+    # Create bar chart of salaries by city
+    df.groupby('City')['Salary'].mean().plot(kind='bar')
+    plt.xlabel('City')
+    plt.ylabel('Salary')
+    plt.title('Average Salary by City')
+    plt.show()
+
+# Main function to run the script
+def main():
+    # Read data from CSV file
+    df = read_data(FILE_NAME)
+
+    # Clean data
+    df = clean_data(df)
+
+    # Visualize data
+    visualize_data(df)
+
+# Call main function
+if __name__ == '__main__':
+    main()
