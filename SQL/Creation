@@ -1,0 +1,49 @@
+-- Create a new database if it doesn't already exist
+CREATE DATABASE IF NOT EXISTS my_database;
+
+-- Use the database
+USE my_database;
+
+-- Create a new table for customer data
+CREATE TABLE customers (
+  id INT PRIMARY KEY,
+  name VARCHAR(255),
+  email VARCHAR(255) UNIQUE,
+  address VARCHAR(255),
+  city VARCHAR(255),
+  state VARCHAR(2),
+  zip VARCHAR(10),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert some sample data into the customers table
+INSERT INTO customers (id, name, email, address, city, state, zip)
+VALUES
+  (1, 'John Doe', 'johndoe@example.com', '123 Main St', 'Anytown', 'CA', '12345'),
+  (2, 'Jane Smith', 'janesmith@example.com', '456 Oak Ave', 'Sometown', 'NY', '54321'),
+  (3, 'Bob Johnson', 'bjohnson@example.com', '789 Maple Rd', 'Anycity', 'TX', '67890');
+
+-- Query the customers table to get the total number of customers and the average ZIP code length
+SELECT COUNT(*) AS total_customers, AVG(LENGTH(zip)) AS avg_zip_length
+FROM customers;
+
+-- Query the customers table to get a list of customers sorted by name in descending order
+SELECT *
+FROM customers
+ORDER BY name DESC;
+
+-- Add a new column to the customers table for the customer's account balance
+ALTER TABLE customers
+ADD COLUMN balance DECIMAL(10,2);
+
+-- Update the balance for customer with ID 1
+UPDATE customers
+SET balance = 100.00
+WHERE id = 1;
+
+-- Delete the customer with email 'janesmith@example.com' from the customers table
+DELETE FROM customers
+WHERE email = 'janesmith@example.com';
+
+-- Drop the customers table from the database
+DROP TABLE customers;
