@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Website</title>
+    <!-- Here I have added a title tag to give the website a name. -->
+    
+    <meta charset="UTF-8">
+    <!-- This meta tag sets the character encoding to UTF-8 to support all languages and characters. -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- This meta tag sets the viewport to be responsive, so the website looks good on all screen sizes. -->
+    
+    <style>
+      /* Here I have added some custom CSS to style the website. */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        color: #333333;
+        margin: 0;
+        padding: 0;
+      }
+      
+      h1 {
+        font-size: 3rem;
+        text-align: center;
+        margin-top: 3rem;
+      }
+      
+      p {
+        font-size: 1.2rem;
+        line-height: 1.5;
+        margin: 2rem auto;
+        max-width: 800px;
+        text-align: justify;
+      }
+      
+      img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: auto;
+      }
+      
+      /* Here I have added a media query to make the website more responsive on smaller screens. */
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2rem;
+          margin-top: 2rem;
+        }
+        
+        p {
+          font-size: 1rem;
+          margin: 1rem auto;
+        }
+      }
+    </style>
+  </head>
+  
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#about">About Me</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <main>
+      <section id="about">
+        <h1>About Me</h1>
+        <img src="https://example.com/my-photo.jpg" alt="My Photo">
+        <p>Hi, my name is John Doe and I am a computer scientist with over 10 years of experience in software development. I specialize in web development using HTML, CSS, JavaScript, and PHP, and have worked on numerous projects for clients in various industries.</p>
+      </section>
+      
+      <section id="services">
+        <h1>Services</h1>
+        <ul>
+          <li>Web Design</li>
+          <li>Web Development</li>
+          <li>Search Engine Optimization</li>
+          <li>Mobile App Development</li>
+        </ul>
+      </section>
+      
+      <section id="portfolio">
+        <h1>Portfolio</h1>
+        <ul>
+          <li><a href="#">Project 1</a></li>
+          <li><a href="#">Project 2</a></li>
+          <li><a href="#">Project 3</a></li>
+          <li><a href="#">Project 4</a></li>
+        </ul
