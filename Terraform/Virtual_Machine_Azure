@@ -1,0 +1,97 @@
+# Define the provider for Microsoft Azure
+provider "azurerm" {
+  features {}
+}
+
+# Create a new resource group for the infrastructure
+resource "azurerm_resource_group" "my_resource_group" {
+  name     = "my-resource-group"
+  location = "eastus"
+}
+
+# Create a new virtual network within the resource group
+resource "azurerm_virtual_network" "my_virtual_network" {
+  name                = "my-virtual-network"
+  address_space       = ["10.0.0.0/16"]
+  location            = azurerm_resource_group.my_resource_group.location
+  resource_group_name = azurerm_resource_group.my_resource_group.name
+
+  # Create a subnet within the virtual network
+  subnet {
+    name           = "my-subnet"
+    address_prefix = "10.0.1.0/24"
+  }
+}
+
+# Create a new network security group within the resource group
+resource "azurerm_network_security_group" "my_network_security_group" {
+  name                = "my-network-security-group"
+  location            = azurerm_resource_group.my_resource_group.location
+  resource_group_name = azurerm_resource_group.my_resource_group.name
+
+  # Define rules for inbound traffic
+  security_rule {
+    name                       = "allow-ssh"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "allow-http"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+# Create a new virtual machine within the virtual network and network security group
+resource "azurerm_linux_virtual_machine" "my_virtual_machine" {
+  name                = "my-virtual-machine"
+  location            = azurerm_resource_group.my_resource_group.location
+  resource_group_name = azurerm_resource_group.my_resource_group.name
+  size                = "Standard_DS1_v2"
+  admin_username      = "myadmin"
+  admin_password      = "Password123!"
+
+  network_interface {
+    name    = "my-network-interface"
+    subnet_id = azurerm_virtual_network.my_virtual_network.subnet_id
+    ip_configuration {
+      name                          = "my-ip-configuration"
+      subnet_id                     = azurerm_virtual_network.my_virtual_network.subnet_id
+      private_ip_address_allocation = "Dynamic"
+      public_ip_address_id          = azurerm_public_ip.my_public_ip.id
+    }
+  }
+
+  # Define the virtual machine image
+  storage_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
+
+  # Define the virtual machine disk
+  storage_os_disk {
+    name              = "my-os-disk"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+
+  # Associate the virtual machine with the network security group
+  os_profile {
+    computer_name  = "my-vm"
+    admin_username =
