@@ -1,0 +1,65 @@
+# Import external libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Constants
+DATA_FILE = 'data.csv'
+X_COL = 'x'
+Y_COL = 'y'
+
+# Function to load data from CSV file
+def load_data(data_file):
+    # Load CSV file using pandas
+    data = pd.read_csv(data_file)
+
+    # Extract x and y columns as numpy arrays
+    x = data[X_COL].values
+    y = data[Y_COL].values
+
+    return x, y
+
+# Function to fit a polynomial to the data
+def fit_polynomial(x, y, degree=2):
+    # Use numpy's polyfit function to fit a polynomial of the specified degree
+    coeffs = np.polyfit(x, y, degree)
+
+    return coeffs
+
+# Function to plot the data and polynomial fit
+def plot_data_and_fit(x, y, coeffs):
+    # Create a new figure
+    fig, ax = plt.subplots()
+
+    # Plot the data
+    ax.scatter(x, y, label='Data')
+
+    # Evaluate the polynomial using the fitted coefficients
+    x_fit = np.linspace(x.min(), x.max(), 100)
+    y_fit = np.polyval(coeffs, x_fit)
+
+    # Plot the polynomial fit
+    ax.plot(x_fit, y_fit, label='Polynomial Fit')
+
+    # Set the axis labels and legend
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.legend()
+
+    # Show the plot
+    plt.show()
+
+# Main function to run the script
+def main():
+    # Load data from CSV file
+    x, y = load_data(DATA_FILE)
+
+    # Fit a polynomial to the data
+    coeffs = fit_polynomial(x, y, degree=3)
+
+    # Plot the data and polynomial fit
+    plot_data_and_fit(x, y, coeffs)
+
+# Call main function
+if __name__ == '__main__':
+    main()
