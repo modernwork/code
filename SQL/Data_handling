@@ -1,0 +1,76 @@
+-- Create a new database if it doesn't already exist
+CREATE DATABASE IF NOT EXISTS my_database;
+
+-- Use the database
+USE my_database;
+
+-- Create a new table for user data
+CREATE TABLE users (
+  id INT PRIMARY KEY,
+  username VARCHAR(255),
+  email VARCHAR(255),
+  password VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert some sample data into the users table
+INSERT INTO users (id, username, email, password)
+VALUES
+  (1, 'user1', 'user1@example.com', 'password1'),
+  (2, 'user2', 'user2@example.com', 'password2'),
+  (3, 'user3', 'user3@example.com', 'password3');
+
+-- Create a new table for post data
+CREATE TABLE posts (
+  id INT PRIMARY KEY,
+  title VARCHAR(255),
+  body TEXT,
+  user_id INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Insert some sample data into the posts table
+INSERT INTO posts (id, title, body, user_id)
+VALUES
+  (1, 'My First Post', 'This is the body of my first post.', 1),
+  (2, 'Another Post', 'This is the body of another post.', 2),
+  (3, 'My Latest Post', 'This is the body of my latest post.', 3);
+
+-- Create a new table for comment data
+CREATE TABLE comments (
+  id INT PRIMARY KEY,
+  body TEXT,
+  user_id INT,
+  post_id INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (post_id) REFERENCES posts(id)
+);
+
+-- Insert some sample data into the comments table
+INSERT INTO comments (id, body, user_id, post_id)
+VALUES
+  (1, 'Great post!', 2, 1),
+  (2, 'I agree with your points.', 3, 2),
+  (3, 'Thanks for sharing!', 1, 3);
+
+-- Query the posts table and join with the users table to get a list of all posts with user information
+SELECT posts.id, posts.title, posts.body, users.username, users.email
+FROM posts
+JOIN users ON posts.user_id = users.id;
+
+-- Query the comments table and join with the users and posts tables to get a list of all comments with user and post information
+SELECT comments.id, comments.body, users.username, posts.title
+FROM comments
+JOIN users ON comments.user_id = users.id
+JOIN posts ON comments.post_id = posts.id;
+
+-- Drop the comments table from the database
+DROP TABLE comments;
+
+-- Drop the posts table from the database
+DROP TABLE posts;
+
+-- Drop the users table from the database
+DROP TABLE users;
