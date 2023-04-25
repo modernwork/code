@@ -1,0 +1,34 @@
+<!-- This XML script is used to configure an Intune policy for Windows 10 devices -->
+
+<IntunePolicy>
+  <!-- Configure Windows Update settings -->
+  <WindowsUpdate>
+    <AutomaticUpdateEnabled>true</AutomaticUpdateEnabled>
+    <ScheduledInstallDay>7</ScheduledInstallDay>
+    <ScheduledInstallTime>03:00</ScheduledInstallTime>
+    <AllowAutoRestart>true</AllowAutoRestart>
+  </WindowsUpdate>
+
+  <!-- Configure endpoint protection settings -->
+  <EndpointProtection>
+    <RealTimeProtectionEnabled>true</RealTimeProtectionEnabled>
+    <ScanSchedule>
+      <Interval>1</Interval>
+      <DayOfWeek>Monday</DayOfWeek>
+      <Time>02:00</Time>
+    </ScanSchedule>
+    <Exclusions>
+      <Exclusion>
+        <Path>C:\Program Files\ExampleApp\</Path>
+      </Exclusion>
+    </Exclusions>
+  </EndpointProtection>
+
+  <!-- Configure device compliance settings -->
+  <DeviceCompliance>
+    <SecurityBaseline>
+      <BaselineId>Windows-10-Baseline</BaselineId>
+      <Action>Review</Action>
+    </SecurityBaseline>
+  </DeviceCompliance>
+</IntunePolicy>
