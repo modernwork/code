@@ -1,0 +1,77 @@
+-- Create a new database if it doesn't already exist
+CREATE DATABASE IF NOT EXISTS my_database;
+
+-- Use the database
+USE my_database;
+
+-- Create a new table for product data
+CREATE TABLE products (
+  id INT PRIMARY KEY,
+  name VARCHAR(255),
+  price DECIMAL(10,2),
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert some sample data into the products table
+INSERT INTO products (id, name, price, description)
+VALUES
+  (1, 'Product A', 10.99, 'This is the description for Product A'),
+  (2, 'Product B', 19.99, 'This is the description for Product B'),
+  (3, 'Product C', 7.50, 'This is the description for Product C');
+
+-- Create a new table for order data
+CREATE TABLE orders (
+  id INT PRIMARY KEY,
+  customer_id INT,
+  order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  total DECIMAL(10,2),
+  FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+
+-- Insert some sample data into the orders table
+INSERT INTO orders (id, customer_id, total)
+VALUES
+  (1, 1, 50.97),
+  (2, 2, 63.24),
+  (3, 3, 28.50);
+
+-- Create a new table for order details data
+CREATE TABLE order_details (
+  order_id INT,
+  product_id INT,
+  quantity INT,
+  PRIMARY KEY (order_id, product_id),
+  FOREIGN KEY (order_id) REFERENCES orders(id),
+  FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+-- Insert some sample data into the order_details table
+INSERT INTO order_details (order_id, product_id, quantity)
+VALUES
+  (1, 1, 3),
+  (1, 2, 1),
+  (2, 1, 2),
+  (2, 3, 1),
+  (3, 2, 3),
+  (3, 3, 2);
+
+-- Query the orders table and join with the customers table to get a list of all orders with customer information
+SELECT orders.id, orders.total, customers.name, customers.email, customers.address, customers.city, customers.state, customers.zip
+FROM orders
+JOIN customers ON orders.customer_id = customers.id;
+
+-- Query the order details table and join with the products table to get a list of all products in each order with their quantity
+SELECT orders.id, products.name, order_details.quantity
+FROM orders
+JOIN order_details ON orders.id = order_details.order_id
+JOIN products ON order_details.product_id = products.id;
+
+-- Drop the order_details table from the database
+DROP TABLE order_details;
+
+-- Drop the orders table from the database
+DROP TABLE orders;
+
+-- Drop the products table from the database
+DROP TABLE products;
