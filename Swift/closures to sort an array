@@ -1,0 +1,17 @@
+struct Person {
+  let name: String
+  let age: Int
+}
+
+// Create an array of Person objects
+let people = [
+  Person(name: "Alice", age: 25),
+  Person(name: "Bob", age: 30),
+  Person(name: "Charlie", age: 20),
+]
+
+// Sort the array by age
+let sortedByAge = people.sorted { $0.age < $1.age }
+
+// Print the sorted array
+print(sortedByAge.map { $0.name })
