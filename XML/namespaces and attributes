@@ -1,0 +1,10 @@
+<!-- Define the root element with two namespace declarations -->
+<root xmlns="http://example.com/namespace1" xmlns:ns2="http://example.com/namespace2">
+
+  <!-- Define a child element with an attribute -->
+  <child ns2:attribute1="value1">Child Element</child>
+
+  <!-- Define another child element with an attribute -->
+  <child ns2:attribute1="value2">Another Child Element</child>
+
+</root>
