@@ -1,0 +1,68 @@
+// Global variables
+const PI = 3.14159;
+let counter = 0;
+
+// Function to calculate area of a circle
+function calculateArea(radius) {
+  // Calculate area
+  let area = PI * radius * radius;
+  return area;
+}
+
+// Function to generate random number
+function generateRandomNumber(min, max) {
+  // Generate random number
+  let randomNumber = Math.floor(Math.random() * (max - min + 1) + min);
+  return randomNumber;
+}
+
+// Class for creating a person object
+class Person {
+  constructor(name, age, address) {
+    this.name = name;
+    this.age = age;
+    this.address = address;
+  }
+
+  // Method to display person's details
+  displayDetails() {
+    console.log(`Name: ${this.name}`);
+    console.log(`Age: ${this.age}`);
+    console.log(`Address: ${this.address}`);
+  }
+}
+
+// Array of person objects
+const people = [
+  new Person("John", 25, "123 Main St"),
+  new Person("Jane", 30, "456 Oak Ave"),
+  new Person("Bob", 40, "789 Elm St")
+];
+
+// Loop through array and display each person's details
+for (let person of people) {
+  person.displayDetails();
+}
+
+// Event listener for button click
+const button = document.querySelector("#my-button");
+button.addEventListener("click", function() {
+  counter++;
+  console.log(`Button clicked ${counter} times.`);
+});
+
+// Function to fetch data from API
+async function fetchData(url) {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Call fetchData function with API URL
+fetchData("https://jsonplaceholder.typicode.com/todos/1")
+  .then(data => console.log(data))
+  .catch(error => console.error(error));
