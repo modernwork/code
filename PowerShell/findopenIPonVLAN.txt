@@ -1,0 +1,11 @@
+$subnet = "10.209.0."
+$startIP = 1
+$endIP = 254
+
+for ($i = $startIP; $i -le $endIP; $i++) {
+    $ip = $subnet + $i
+    $ping = Test-Connection -ComputerName $ip -Count 1 -Quiet
+    if ($ping) {
+        Write-Host "$ip is used."
+    }
+}
