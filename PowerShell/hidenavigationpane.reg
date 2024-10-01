@@ -1,0 +1,4 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Modules\GlobalSettings\Sizer]
+"PageSpaceControlSizer"=hex:a0,00,00,00,00,00,00,00,00,00,00,00,56,05,00,00
